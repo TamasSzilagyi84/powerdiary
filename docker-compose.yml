@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  web.httpaggregator:
+    image: ${DOCKER_REGISTRY-}webhttpaggregator
+    build:
+      context: .
+      dockerfile: src/ApiGateways/Web.Bff/Web.HttpAggregator/Dockerfile
+    ports:
+       - "11000:443"
+       - "11001:80"
+    depends_on:
+      - mssql
+  chat:
+    image: ${DOCKER_REGISTRY-}chat
+    build:
+      context: .
+      dockerfile: src/Services/Chat/Chat.Api/Dockerfile
+    ports:
+       - "11010:443"
+       - "11011:80"
+    depends_on:
+      - mssql
+  mssql:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5434:1433"

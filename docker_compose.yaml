@@ -1,0 +1,11 @@
+services:
+  chatmessage:
+    build: src/Services/Chat/Chat.Api/Dockerfile
+    ports:
+      - "7052:7052"
+    depends_on:
+      - mssql
+  mssql:
+    image: mcr.microsoft.com/mssql/server
+volumes:
+  logvolume01: {}
