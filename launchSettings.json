@@ -1,15 +1,12 @@
 {
   "profiles": {
-    "Docker Compose": {
+    "docker_compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
-      "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "web.httpaggregator",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
-        "web.httpaggregator": "StartDebugging",
-        "chat": "StartDebugging",
-        "mssql": "StartWithoutDebugging"
+        "chat": "DoNotStart",
+        "mssql": "StartWithoutDebugging",
+        "web.httpaggregator": "DoNotStart"
       }
     }
   }

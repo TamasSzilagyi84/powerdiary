@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 
+using FluentValidation;
+
 using Web.HttpAggregator.Configuration;
 using Web.HttpAggregator.Middlewares;
 
@@ -18,6 +20,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 WebApplication app = builder.Build();
 
