@@ -5,7 +5,20 @@ using FluentValidation;
 using Web.HttpAggregator.Configuration;
 using Web.HttpAggregator.Middlewares;
 
+string allowAll = "allowAll";
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowAll,
+        policy  =>
+        {
+            policy.AllowAnyOrigin();
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+        });
+});
 
 builder.Services.ConfigureServices(builder.Configuration);
 builder.Services.ConfigureOptionSettings(builder.Configuration);
@@ -34,7 +47,10 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseMiddleware<WebHttpAggregatorErrorHandlingMiddleware>();
 
-app.UseHttpsRedirection();
+// TODO uncomment it when FE handles self signed certs
+// app.UseHttpsRedirection();
+
+app.UseCors(allowAll);
 
 app.UseAuthorization();
 

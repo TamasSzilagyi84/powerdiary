@@ -26,25 +26,28 @@
             IQueryable<ChatMessageAggregationDto> query = request.AggregationType switch
             {
                 ChatMessageAggregationType.Yearly => this._context.ChatMessages
-                    .OrderByDescending(i => i.Created)
-                    .ThenByDescending(i => i.Type)
                     .GroupBy(i => new {i.Created.Year, i.Type})
+                    .OrderByDescending(i => i.Key.Year)
+                    .ThenBy(i => i.Key.Type)
                     .Select(i => new ChatMessageAggregationDto()
                     {
                         Created = new DateTime(i.Key.Year, 1, 1), Type = i.Key.Type, Count = i.Count()
                     }),
                 ChatMessageAggregationType.Monthly => this._context.ChatMessages
-                    .OrderByDescending(i => i.Created)
-                    .ThenByDescending(i => i.Type)
                     .GroupBy(i => new {i.Created.Year, i.Created.Month, i.Type})
+                    .OrderByDescending(i => i.Key.Year)
+                    .ThenByDescending(i => i.Key.Month)
+                    .ThenBy(i => i.Key.Type)
                     .Select(i => new ChatMessageAggregationDto()
                     {
                         Created = new DateTime(i.Key.Year, i.Key.Month, 1), Type = i.Key.Type, Count = i.Count()
                     }),
                 ChatMessageAggregationType.Daily => this._context.ChatMessages
-                    .OrderByDescending(i => i.Created)
-                    .ThenByDescending(i => i.Type)
                     .GroupBy(i => new {i.Created.Year, i.Created.Month, i.Created.Day, i.Type})
+                    .OrderByDescending(i => i.Key.Year)
+                    .ThenByDescending(i => i.Key.Month)
+                    .ThenByDescending(i => i.Key.Day)
+                    .ThenBy(i => i.Key.Type)
                     .Select(i => new ChatMessageAggregationDto()
                     {
                         Created = new DateTime(i.Key.Year, i.Key.Month, i.Key.Day),
@@ -52,8 +55,6 @@
                         Count = i.Count()
                     }),
                 ChatMessageAggregationType.Hourly => this._context.ChatMessages
-                    .OrderByDescending(i => i.Created)
-                    .ThenByDescending(i => i.Type)
                     .GroupBy(i => new
                     {
                         i.Created.Year,
@@ -62,6 +63,11 @@
                         i.Created.Hour,
                         i.Type
                     })
+                    .OrderByDescending(i => i.Key.Year)
+                    .ThenByDescending(i => i.Key.Month)
+                    .ThenByDescending(i => i.Key.Day)
+                    .ThenByDescending(i => i.Key.Hour)
+                    .ThenBy(i => i.Key.Type)
                     .Select(i => new ChatMessageAggregationDto()
                     {
                         Created = new DateTime(
@@ -75,8 +81,6 @@
                         Count = i.Count()
                     }),
                 ChatMessageAggregationType.Minutely => this._context.ChatMessages
-                    .OrderByDescending(i => i.Created)
-                    .ThenByDescending(i => i.Type)
                     .GroupBy(i => new
                     {
                         i.Created.Year,
@@ -86,6 +90,12 @@
                         i.Created.Minute,
                         i.Type
                     })
+                    .OrderByDescending(i => i.Key.Year)
+                    .ThenByDescending(i => i.Key.Month)
+                    .ThenByDescending(i => i.Key.Day)
+                    .ThenByDescending(i => i.Key.Hour)
+                    .ThenByDescending(i => i.Key.Minute)
+                    .ThenBy(i => i.Key.Type)
                     .Select(i => new ChatMessageAggregationDto()
                     {
                         Created = new DateTime(
@@ -103,6 +113,7 @@
             };
 
             return await query
+                //.OrderByDescending(i => i.Created)
                 .Skip(request.Page * request.Take)
                 .Take(request.Take)
                 .ToListAsync(cancellationToken)

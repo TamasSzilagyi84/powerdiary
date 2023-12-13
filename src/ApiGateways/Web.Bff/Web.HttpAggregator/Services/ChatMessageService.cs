@@ -69,7 +69,7 @@
 
         public async Task<IList<ChatMessageAggregationDto>> AggregateStatisticsAsync(int page, int take, ChatMessageAggregationType type, CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await this._httpClient.GetAsync($"{this._endpointUrl}?page={page}&take={take}&type={type}", cancellationToken).ConfigureAwait(false);
+            HttpResponseMessage response = await this._httpClient.GetAsync($"{this._endpointUrl}/statistics?page={page}&take={take}&type={type}", cancellationToken).ConfigureAwait(false);
 
             await response.HandleUnsuccessfulResponse(cancellationToken).ConfigureAwait(false);
 
