@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chat.IntegrationTests", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{3B2D68A9-8B2A-4C2A-A129-6E4D88FC49BD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{58D82C1C-F2EC-49DC-97EE-DCDB8BCFF116}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{58D82C1C-F2EC-49DC-97EE-DCDB8BCFF116}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
